@@ -9,10 +9,11 @@
   border-top-left-radius: 40%;
   border: 8px solid vars.$color-light;
   border-bottom: none;
-
+  
   &__input {
-    width: 50px;
+    width: 40px;
     background-color: vars.$color-alt;
+    border: 1px solid vars.$color-main;
   }
 
   &__title{
