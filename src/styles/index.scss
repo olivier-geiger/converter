@@ -1,0 +1,13 @@
+// on indique que l'on utilise le contenu du fichier _reset.css
+@use 'reset';
+// on indique que l'on utilise le contenu du fichier _vars.scss
+@use 'vars';
+
+body {
+  // on peut maintenant utiliser les variables définies
+  // dans le fichier _vars.scss de la manière suivante :
+  font-family: vars.$font;
+  font-weight: 300;
+  background-color: vars.$color-alt;
+  color: vars.$color-main;
+}

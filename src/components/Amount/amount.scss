@@ -1,0 +1,21 @@
+@use 'src/styles/vars';
+
+.amount{
+  background-color: vars.$color-light;
+  padding: vars.$gutter * 3 0;
+  text-align: center;
+  border-bottom-right-radius: 40%;
+  border-bottom-left-radius: 40%;
+  border: 8px solid vars.$color-main;
+  border-top: none;
+
+  &__amount{
+    font-weight: 700;
+    font-size: 2rem;
+  }
+  
+  &__currency{
+    font-size: 1.3rem;
+    margin-top: vars.$gutter;
+  }
+}

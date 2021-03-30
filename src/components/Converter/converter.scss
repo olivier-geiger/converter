@@ -1,0 +1,8 @@
+@use 'src/styles/vars';
+
+.converter {
+  width: 20rem;
+  // on peut effectuer des calculs en se basant sur notre variable gutter
+  // pour définir les marges extérieures en y
+  margin: 2 * vars.$gutter auto;  
+}

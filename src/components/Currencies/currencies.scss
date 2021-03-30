@@ -1,0 +1,51 @@
+@use 'src/styles/vars';
+
+.currencies {
+  background-color: vars.$color-light;
+  // pour gérer la scroll bar :
+  // - on fixe une hauteur maximale
+  // - on indique que le débordement vertical sera géré par un scroller si besoin 
+  max-height: 300px;
+  overflow-y: auto;
+  border-left: 8px solid vars.$color-main;
+  border-right: 8px solid vars.$color-main;
+  
+  &__title {
+    padding: vars.$gutter;
+    margin-top: vars.$gutter;
+    font-weight: bold;
+  }
+
+  &__list__item {
+    padding: vars.$gutter;
+    border-top: 1px solid vars.$color-alt;
+    font-weight: 500;
+    // on indique que l'on veut une transition de 1s sur la couleur d'arrière plan
+    transition: background-color vars.$transition-slow;
+    cursor: pointer;
+
+    // on ajoute une pseudo class hover sur notre élément
+    // dans les propriété, on fixe la couleur de fond au survol
+    &:hover {
+      background-color: vars.$color-alt;
+      // on surcharge la vitesse de transition en indiquant qu'elle sera plus rapide (vars.$transition-fast : 0.2s)
+      transition-duration: vars.$transition-fast;
+    }
+  }
+
+}
+
+.currencies {
+  &::-webkit-scrollbar {
+    width: vars.$gutter/2;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: vars.$color-light;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: vars.$color-main;
+    outline: 1px solid black;
+  }
+}
