@@ -6,10 +6,7 @@ import './header.scss';
 const Header = ({ baseAmount }) => (
   <header className="header">
     <h1 className="header__title">Converter</h1>
-    <form className="header__form">
-      <input type="number" className="header__input"/><span className="header__text"> {baseAmount > 1 ? 'euros' : 'euro'}</span>
-    </form>
-    
+    <p className="header__text">{baseAmount} {baseAmount > 1 ? 'euros' : 'euro'}</p>
   </header>
 );
 
@@ -19,4 +16,3 @@ Header.propTypes = {
 };
 
 export default Header;
-

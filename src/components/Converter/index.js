@@ -23,14 +23,19 @@ class Converter extends React.Component {
   state = {
     open: true,
     baseAmount: 1,
-    // on a bien une proprièté du state qui permet de définir du
-    // la devise courante
+    // on a bien une propriété du state qui permet de définir
+    // la devise courante, check
     currency: 'United States Dollar',
+    // on prévoit dans le state une propriété pour stocker la devise à rechercher
+    currencySearch: '',
+    // eslint-disable-next-line react/no-unused-state
+    neSeraPasModifieeParLeSetStateDeToggle: 'oh que non !',
   };
 
   // on définit notre fonction setCurrency dans le composant
   // Converter puisque c'est ici que réside la donnée à modifier
   // (la propriété currency de this.state)
+  // eslint-disable-next-line class-methods-use-this
   setCurrency = (newCurrencyValue) => {
     console.log('set currency définie dans Converter');
     // on peut donner à la propriété currency du state
@@ -43,6 +48,15 @@ class Converter extends React.Component {
     });
   }
 
+  // on prévoit une fonction qui permet de changer
+  // la valeur de la propriété currencySearch du state
+  setCurrencySearch = (newCurrencySearch) => {
+    this.setState(
+      {
+        currencySearch: newCurrencySearch,
+      },
+    );
+  }
 
   // permet de calculer le montant converti
   // cette méthode s'appuie sur le montant à convertir
@@ -54,22 +68,28 @@ class Converter extends React.Component {
     const currencyObject = currenciesData.find(
       (currencyData) => currencyData.name === currency,
     );
-    const currencyObjectCru = currenciesData.find(
-      (currencyData) => currencyData.name === currency,
-      );
-      
-      
-      // on récupère le taux associé
-      const { rate } = currencyObject;
-  
-      //const { currency } = currencyObject;
-      const { name } = currencyObjectCru
+
+    // on récupère le taux associé
+    const { rate } = currencyObject;
 
     // on multiplie le rate avec le baseAmount
     const amount = rate * baseAmount;
 
     // on retourne la valeur arrondie au centième
     return Math.round(amount * 100) / 100;
+  }
+
+  // on prévoit une fonction effectuant une projection
+  // depuis le state et des données immuables
+  getFilteredCurrencies() {
+    // on récupère la devise à rechercher depuis le state
+    const { currencySearch } = this.state;
+
+    const filteredCurrencies = currenciesData.filter(
+      (currencyData) => currencyData.name.toLowerCase().includes(currencySearch),
+    );
+
+    return filteredCurrencies;
   }
 
   // on n'a également plus à lier le this à la méthode
@@ -108,12 +128,18 @@ class Converter extends React.Component {
     // on effectue une affectation par décomposition
     // ici on récupère la valeur de la propriété open
     // de notre state (this.state) dans une constante open
-    const { open, baseAmount, currency } = this.state;
+    //
+    // on récupère le currencySearch depuis le state
+    //
+    // on transmet au composant Currencies une référence à la méthode
+    // setCurrencySearch par l'intermédiaire des props
+    const {
+      open, baseAmount, currency, currencySearch,
+    } = this.state;
 
     const convertedAmount = this.getConvertedAmount();
-    // console.log(convertedAmount)
-    // const convertedCurrency = this.getConvertedAmount();
-    // console.log(convertedCurrency)
+
+    const filteredeCurrencies = this.getFilteredCurrencies();
 
     // on se base ainsi sur notre state (état interne du composant)
     // pour déterminer si oui ou non on affiche le composant Currencies
@@ -122,18 +148,29 @@ class Converter extends React.Component {
         <Header baseAmount={baseAmount} />
         <Toggler open={open} doToggle={this.toggle} />
         {
-          // on conditionne l'affichage de notre composant Currencies
+          // on coditionne l'affichage de notre composant Currencies
           // à la valeur de la variable open.
           // La vairable a été initialisée avec la valeur de la propriété
           // open du state.
           // ici, on pourrait traduire la ligne suivante par :
           // si open est vrai, on affiche currencies
-          // on transmet au composant Currency
+          //
+          // On transmet au composant Currency
           // une référence à la méthode setCurrency de l'objet courant
-          // par l'intérmédiaire d'une prop : changeCurrency
-          open && <Currencies currencies={currenciesData} changeCurrency={this.setCurrency} />
-          //on transmet bien la valeur de la devise courante
+          // par l'intermédiaire d'une prop : changeCurrency
+          open && (
+          <Currencies
+            currencySearch={currencySearch}
+            changeCurrencySearch={this.setCurrencySearch}
+            currencies={filteredeCurrencies}
+            changeCurrency={this.setCurrency}
+          />
+          )
+        }
+        {
+          // on transmets bien la valeur de la devise courante
           // à notre composant Amount pour qu'il l'affiche, check.
+
         }
         <Amount amount={convertedAmount} currency={currency} />
       </div>

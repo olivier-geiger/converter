@@ -5,15 +5,21 @@
   // pour gérer la scroll bar :
   // - on fixe une hauteur maximale
   // - on indique que le débordement vertical sera géré par un scroller si besoin 
-  max-height: 300px;
+  max-height: 250px;
   overflow-y: auto;
-  border-left: 8px solid vars.$color-main;
   border-right: 8px solid vars.$color-main;
+  border-left: 8px solid vars.$color-main;
   
-  &__title {
+  &__search {
     padding: vars.$gutter;
     margin-top: vars.$gutter;
-    font-weight: bold;
+    width: 100%;
+    border: none;
+    color: vars.$color-main;
+    font: inherit;
+    &::placeholder {
+      color: vars.$color-alt;
+    }
   }
 
   &__list__item {
@@ -35,6 +41,9 @@
 
 }
 
+
+// BONUS : scroll-bar
+
 .currencies {
   &::-webkit-scrollbar {
     width: vars.$gutter/2;
@@ -49,3 +58,4 @@
     outline: 1px solid black;
   }
 }
+
