@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import './amount.scss';
 
-const Amount = ({ amount, currency, doShow }) => { 
+const Amount = ({ amount, currency }) => { 
   return (
     <header className="amount">
       <p className="amount__amount">{amount}</p>

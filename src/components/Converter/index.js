@@ -23,10 +23,26 @@ class Converter extends React.Component {
   state = {
     open: true,
     baseAmount: 1,
-    currency: 'Brazilian Real',
-    // eslint-disable-next-line react/no-unused-state
-    neSeraPasModifieeParLeSetStateDeToggle: 'oh que non !',
+    // on a bien une proprièté du state qui permet de définir du
+    // la devise courante
+    currency: 'United States Dollar',
   };
+
+  // on définit notre fonction setCurrency dans le composant
+  // Converter puisque c'est ici que réside la donnée à modifier
+  // (la propriété currency de this.state)
+  setCurrency = (newCurrencyValue) => {
+    console.log('set currency définie dans Converter');
+    // on peut donner à la propriété currency du state
+    // une nouvelle valeur
+    // grâce à la méthode this.setState
+    // rappel l'objet passé en argument à setState sera fusionné avec le
+    // state courant.
+    this.setState({
+      currency: newCurrencyValue,
+    });
+  }
+
 
   // permet de calculer le montant converti
   // cette méthode s'appuie sur le montant à convertir
@@ -38,9 +54,16 @@ class Converter extends React.Component {
     const currencyObject = currenciesData.find(
       (currencyData) => currencyData.name === currency,
     );
-
-    // on récupère le taux associé
-    const { rate } = currencyObject;
+    const currencyObjectCru = currenciesData.find(
+      (currencyData) => currencyData.name === currency,
+      );
+      
+      
+      // on récupère le taux associé
+      const { rate } = currencyObject;
+  
+      //const { currency } = currencyObject;
+      const { name } = currencyObjectCru
 
     // on multiplie le rate avec le baseAmount
     const amount = rate * baseAmount;
@@ -74,18 +97,6 @@ class Converter extends React.Component {
     });
   }
 
-  show = (currencies) => {
-    console.log(currencies.name);
-    console.log(this);
-
-    const { currency, baseAmount} =this.state;
-    this.setState({
-      currency: currency,
-      baseAmount: baseAmount,
-      
-    })
-  }
-
   render() {
     // ici, on déclare une variable open
     // qui va conditionner l'affichage de notre
@@ -100,6 +111,9 @@ class Converter extends React.Component {
     const { open, baseAmount, currency } = this.state;
 
     const convertedAmount = this.getConvertedAmount();
+    // console.log(convertedAmount)
+    // const convertedCurrency = this.getConvertedAmount();
+    // console.log(convertedCurrency)
 
     // on se base ainsi sur notre state (état interne du composant)
     // pour déterminer si oui ou non on affiche le composant Currencies
@@ -114,7 +128,12 @@ class Converter extends React.Component {
           // open du state.
           // ici, on pourrait traduire la ligne suivante par :
           // si open est vrai, on affiche currencies
-          open && <Currencies currencies={currenciesData} doShow={this.show} />
+          // on transmet au composant Currency
+          // une référence à la méthode setCurrency de l'objet courant
+          // par l'intérmédiaire d'une prop : changeCurrency
+          open && <Currencies currencies={currenciesData} changeCurrency={this.setCurrency} />
+          //on transmet bien la valeur de la devise courante
+          // à notre composant Amount pour qu'il l'affiche, check.
         }
         <Amount amount={convertedAmount} currency={currency} />
       </div>

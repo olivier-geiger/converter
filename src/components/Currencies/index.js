@@ -6,17 +6,25 @@ import Currency from './Currency';
 
 import './currencies.scss';
 
-const Currencies = ({ currencies, doShow }) => { 
+// ici, on peut récupérer une référence à setCurrency du composant converter
+// dans notre prop changeCurrency
+const Currencies = ({ currencies, changeCurrency }) => { 
   return(
     <main className="currencies">
       <div className="currencies__title">Currencies</div>
-      <ul className="currencies__list"  onClick=    { () => doShow(currencies.name)}>
+      <ul className="currencies__list">
         {
           // on va générer une portion d'UI pour chacun
           // des éléments de notre tableau currencies
           // on utilise notre sous-composant pour rendre la partie d'UI
           // on lui déverse les propriétés de currency en tant que props
-          currencies.map((currency) => (<Currency key={currency.name} {...currency} />))
+          currencies.map((currency) => (<Currency 
+              // encore une fois, on transmet la référence à la méthode
+              // setCurrency de Converter (puisqu'on l'a reçue dans notre prop
+              // changeCurrency), par l'intermédiaire d'une prop changeCurrency
+            changeCurrency={changeCurrency} 
+            key={currency.name} 
+            {...currency} />))
         } 
       </ul>
     </main>
@@ -35,6 +43,9 @@ Currencies.propTypes = {
       },
     ).isRequired,
   ).isRequired,
+  // on définit que notre prop changeCurrency
+  // est une fonction
+  changeCurrency: PropTypes.func.isRequired,
 };
 
 export default Currencies;
