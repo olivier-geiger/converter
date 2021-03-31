@@ -80,15 +80,24 @@ class Converter extends React.Component {
   }
 
   // on prévoit une fonction effectuant une projection
-  // depuis le state et des données immuables
+  // depuis le state et des données immuables.
+  // Cette fonction retourne un tableau des devises à afficher dans l'interface
   getFilteredCurrencies() {
     // on récupère la devise à rechercher depuis le state
     const { currencySearch } = this.state;
 
+    // on passe la chaine à rechercher en minuscule
+    const currencySearchInLowerCase = currencySearch.toLowerCase();
+
+    // on filtre le tableau complet des devises
+    // pour ne garder que les devises dont le nom contient
+    // la valeur présente dans le champ de recherche
+    // (et donc stockée dans la propriété currencySearch du state)
     const filteredCurrencies = currenciesData.filter(
-      (currencyData) => currencyData.name.toLowerCase().includes(currencySearch),
+      (currencyData) => currencyData.name.toLowerCase().includes(currencySearchInLowerCase),
     );
 
+    // une fois le tableau filtré, on le renvoit
     return filteredCurrencies;
   }
 
@@ -139,6 +148,8 @@ class Converter extends React.Component {
 
     const convertedAmount = this.getConvertedAmount();
 
+    // Ici, on obtient dans filteredeCurrencies
+    // un tableau de devise filtré par le champ de recherche
     const filteredeCurrencies = this.getFilteredCurrencies();
 
     // on se base ainsi sur notre state (état interne du composant)
@@ -158,6 +169,10 @@ class Converter extends React.Component {
           // On transmet au composant Currency
           // une référence à la méthode setCurrency de l'objet courant
           // par l'intermédiaire d'une prop : changeCurrency
+          // Il nous reste maintenant à transmettre le tableau 
+          // filtré au composant currencies
+          // Peut lui import que ce tableau contienne 1, 10 ou 100 devises
+          // il sait les afficher.
           open && (
           <Currencies
             currencySearch={currencySearch}
